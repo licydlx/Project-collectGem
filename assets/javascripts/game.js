@@ -36,7 +36,7 @@ cc.Class({
     },
 
     init() {
-        this.winGame.setPosition(cc.v2(0, 600));
+        this.winGame.setPosition(cc.v2(0, 540));
         this.count.string = 0;
         this.gemPool.removeAllChildren();
         this.randomV2 = [];
@@ -45,9 +45,12 @@ cc.Class({
     },
 
     _randomV2() {
+        let width = this.gemPool.width;
+        let height = this.gemPool.height;
+
         if (this.randomV2.length < this.randomTotal) {
-            let x = Math.random() > 0.5 ? -Math.floor(Math.random() * 900) : Math.floor(Math.random() * 900);
-            let y = Math.random() > 0.5 ? -Math.floor(Math.random() * 480) : Math.floor(Math.random() * 480);
+            let x = Math.random() > 0.5 ? -Math.floor(Math.random() * (width - 100)/2) : Math.floor(Math.random() * (width - 100)/2);
+            let y = Math.random() > 0.5 ? -Math.floor(Math.random() * (height - 100)/2) : Math.floor(Math.random() * (height - 100)/2);
             this.randomV2.push(cc.v2(x, y));
             this._randomV2();
         } else {
@@ -65,7 +68,6 @@ cc.Class({
     },
 
     _countGem(event) {
-        console.log(event);
         let lightGem = event.currentTarget;
 
         let position = this.gem.getPosition();
@@ -77,10 +79,7 @@ cc.Class({
             this.count.string = count;
             if (this.randomV2.length == count) {
                 let b1 = cc.moveTo(1, cc.v2(0, 0));
-                let b2 = cc.scaleTo(.3, 1.2);
-                let b3 = cc.scaleTo(.3, .8);
-                let b4 = cc.scaleTo(.3, 1);
-                this.winGame.runAction(cc.sequence(b1, b2, b3, b4));
+                this.winGame.runAction(b1);
             }
         }, this);
 
